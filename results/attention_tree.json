@@ -1,0 +1,185 @@
+[
+  {
+    "title": "Attention Is All You Need",
+    "node_id": "0000",
+    "start_index": 1,
+    "end_index": 15,
+    "summary": "This section, titled \"Attention Is All You Need,\" introduces the Transformer architecture—a novel sequence transduction model that entirely replaces recurrent and convolutional layers with attention mechanisms. It covers the authors' affiliations and introductory remarks, an abstract, the limitations of traditional recurrent networks, and background on sequence modeling. It details the core model architecture (encoder-decoder structure, scaled dot-product and multi-head attention, feed-forward networks, and positional encodings) and compares self-attention with recurrent and convolutional layers in terms of complexity, parallelization, and path length. Additionally, it outlines the training regime, presents experimental results and model variations on machine translation and constituency parsing, provides attention visualizations, offers conclusions and future research directions, and concludes with references.",
+    "nodes": [
+      {
+        "title": "Attention Is All You Need (intro)",
+        "node_id": "0001",
+        "start_index": 1,
+        "end_index": 1,
+        "summary": "# Attention Is All You Need\n\nAshish Vaswani*\n\nGoogle Brain\n\navaswani@google.com\n\nNoam Shazeer*\n\nGoogle Brain\n\nnoam@google.com\n\nNiki Parmar*\n\nGoogle Research\n\nnikip@google.com\n\nJakob Uszkoreit*\n\nGoogle Research\n\nusz@google.com\n\nLlion Jones*\n\nGoogle Research\n\nllion@google.com\n\nAidan N. Gomez* †\n\nUniversity of Toronto\n\naidan@cs.toronto.edu\n\nŁukasz Kaiser*\n\nGoogle Brain\n\nlukaszkaiser@google.com\n\nIllia Polosukhin* ‡\n\nillia.polosukhin@gmail.com\n"
+      },
+      {
+        "title": "Abstract",
+        "node_id": "0002",
+        "start_index": 1,
+        "end_index": 2,
+        "summary": "The text introduces the Transformer architecture, which replaces traditional recurrent and convolutional neural networks with attention mechanisms. It highlights the model's superior translation quality, faster training times, state-of-the-art results on WMT 2014 translation tasks, successful generalization to constituency parsing, and includes author contribution acknowledgments."
+      },
+      {
+        "title": "1 Introduction",
+        "node_id": "0003",
+        "start_index": 2,
+        "end_index": 2,
+        "summary": "This text introduces the limitations of recurrent neural networks in sequence modeling due to their sequential computation nature. It highlights the use of attention mechanisms and proposes the Transformer architecture, a novel model that eliminates recurrence entirely in favor of attention to improve parallelization and computational efficiency."
+      },
+      {
+        "title": "2 Background",
+        "node_id": "0004",
+        "start_index": 2,
+        "end_index": 2,
+        "summary": "This section reviews background models that reduce sequential computation using convolutions, details the concept and applications of self-attention, and introduces the Transformer as the first model to rely entirely on self-attention without recurrent or convolutional layers."
+      },
+      {
+        "title": "3 Model Architecture",
+        "node_id": "0005",
+        "start_index": 2,
+        "end_index": 6,
+        "summary": "The section covers the overall Transformer model architecture, which utilizes a standard encoder-decoder structure built upon stacked self-attention and fully connected layers. Specifically, it details the 6-layer encoder and decoder stacks with their residual connections, layer normalization, and autoregressive masking; the attention mechanism, including Scaled Dot-Product Attention, Multi-Head Attention, and its specific applications; position-wise fully connected feed-forward networks; learned token embeddings and softmax output layers with weight sharing; and the use of sinusoidal positional encodings to incorporate sequence order information.",
+        "nodes": [
+          {
+            "title": "3 Model Architecture (intro)",
+            "node_id": "0006",
+            "start_index": 2,
+            "end_index": 3,
+            "summary": "The text describes the standard encoder-decoder architecture used in neural sequence transduction models and introduces the Transformer's specific implementation using stacked self-attention and fully connected layers."
+          },
+          {
+            "title": "3.1 Encoder and Decoder Stacks",
+            "node_id": "0007",
+            "start_index": 3,
+            "end_index": 3,
+            "summary": "This text describes the architecture of the encoder and decoder stacks in the Transformer model, detailing their identical 6-layer structures, sub-layer components (self-attention, feed-forward, and encoder-decoder attention), residual connections, layer normalization, output dimensions, and the masking mechanism used in the decoder for autoregressive prediction."
+          },
+          {
+            "title": "3.2 Attention",
+            "node_id": "0008",
+            "start_index": 3,
+            "end_index": 5,
+            "summary": "This section covers the concept of attention in transformer models, defining it as a mapping of queries and key-value pairs to an output weighted sum. It details Scaled Dot-Product Attention and its mathematical formulation, explains Multi-Head Attention and its parallel subspace projections, and describes the three specific applications of attention within the model: encoder-decoder attention, encoder self-attention, and masked decoder self-attention.",
+            "nodes": [
+              {
+                "title": "3.2 Attention (intro)",
+                "node_id": "0009",
+                "start_index": 3,
+                "end_index": 4,
+                "summary": "### 3.2 Attention\n\nAn attention function can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values, and output are all vectors. The output is computed as a weighted sum\n\n3\n\nScaled Dot-Product Attention\n\n![img-1.jpeg](img-1.jpeg)\n\nMulti-Head Attention\n\n![img-2.jpeg](img-2.jpeg)\n\nFigure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several attention layers running in parallel.\n\nof the values, where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key.\n"
+              },
+              {
+                "title": "3.2.1 Scaled Dot-Product Attention",
+                "node_id": "0010",
+                "start_index": 4,
+                "end_index": 4,
+                "summary": "This text introduces Scaled Dot-Product Attention, detailing its mathematical formulation using queries, keys, and values, and explains why scaling by the inverse square root of the key dimension is necessary for stable gradients compared to additive attention."
+              },
+              {
+                "title": "3.2.2 Multi-Head Attention",
+                "node_id": "0011",
+                "start_index": 4,
+                "end_index": 5,
+                "summary": "The text explains the concept of Multi-Head Attention in transformer models, detailing how linear projections and parallel attention heads enable joint attention to information from different subspaces, along with its mathematical formulation and specific implementation parameters."
+              },
+              {
+                "title": "3.2.3 Applications of Attention in our Model",
+                "node_id": "0012",
+                "start_index": 5,
+                "end_index": 5,
+                "summary": "The Transformer model utilizes multi-head attention in three distinct ways: encoder-decoder attention, encoder self-attention, and decoder self-attention with masking to preserve the auto-regressive property."
+              }
+            ]
+          },
+          {
+            "title": "3.3 Position-wise Feed-Forward Networks",
+            "node_id": "0013",
+            "start_index": 5,
+            "end_index": 5,
+            "summary": "### 3.3 Position-wise Feed-Forward Networks\n\nIn addition to attention sub-layers, each of the layers in our encoder and decoder contains a fully connected feed-forward network, which is applied to each position separately and identically. This consists of two linear transformations with a ReLU activation in between.\n\n$$\\text{FFN}(x) = \\max(0, xW_1 + b_1)W_2 + b_2 \\tag{2}$$\n\nWhile the linear transformations are the same across different positions, they use different parameters from layer to layer. Another way of describing this is as two convolutions with kernel size 1. The dimensionality of input and output is $d_{\\text{model}} = 512$, and the inner-layer has dimensionality $d_{ff} = 2048$.\n"
+          },
+          {
+            "title": "3.4 Embeddings and Softmax",
+            "node_id": "0014",
+            "start_index": 5,
+            "end_index": 6,
+            "summary": "This text details the model's use of learned embeddings, linear transformations, and softmax functions for token conversion and probability prediction, including weight sharing and scaling practices, followed by a comparative table of computational characteristics for different layer types."
+          },
+          {
+            "title": "3.5 Positional Encoding",
+            "node_id": "0015",
+            "start_index": 6,
+            "end_index": 6,
+            "summary": "This section explains the necessity and implementation of positional encodings in the model to retain sequence order information, detailing the choice of sinusoidal functions over learned embeddings for their potential to handle longer sequences."
+          }
+        ]
+      },
+      {
+        "title": "4 Why Self-Attention",
+        "node_id": "0016",
+        "start_index": 6,
+        "end_index": 7,
+        "summary": "The text compares self-attention layers to recurrent and convolutional layers in sequence transduction models across three desiderata: computational complexity, parallelizability, and path length for long-range dependencies, noting that self-attention offers advantages in efficiency, path length, and model interpretability."
+      },
+      {
+        "title": "5 Training",
+        "node_id": "0017",
+        "start_index": 7,
+        "end_index": 8,
+        "summary": "## 5 Training\n\nThis section describes the training regime for our models.\n"
+      },
+      {
+        "title": "6 Results",
+        "node_id": "0018",
+        "start_index": 8,
+        "end_index": 10,
+        "summary": "The section presents the experimental results of the Transformer model, covering its state-of-the-art performance and efficiency in Machine Translation (WMT 2014 English-to-German and English-to-French), an evaluation of different Model Variations by altering architectural components and hyperparameters, and its successful application and performance in English Constituency Parsing.",
+        "nodes": [
+          {
+            "title": "6.1 Machine Translation",
+            "node_id": "0019",
+            "start_index": 8,
+            "end_index": 8,
+            "summary": "The text details the performance of the Transformer model on the WMT 2014 English-to-German and English-to-French translation tasks, highlighting new state-of-the-art BLEU scores, lower training costs compared to previous models, checkpoint averaging techniques, decoding hyperparameters, and performance summary tables."
+          },
+          {
+            "title": "6.2 Model Variations",
+            "node_id": "0020",
+            "start_index": 8,
+            "end_index": 9,
+            "summary": "This section evaluates various Transformer model architectures by altering components such as attention heads, key dimensions, model size, dropout, and positional encodings, measuring their impact on English-to-German translation performance."
+          },
+          {
+            "title": "6.3 English Constituency Parsing",
+            "node_id": "0021",
+            "start_index": 9,
+            "end_index": 10,
+            "summary": "The text describes experiments evaluating the Transformer model on English constituency parsing, detailing the training setups, hyperparameters, and successful performance results compared to prior models."
+          }
+        ]
+      },
+      {
+        "title": "7 Conclusion",
+        "node_id": "0022",
+        "start_index": 10,
+        "end_index": 10,
+        "summary": "The conclusion summarizes the introduction of the Transformer model based on self-attention, highlighting its superior translation performance and training speed, outlines future research directions for attention-based models across different modalities, and provides code availability and acknowledgements."
+      },
+      {
+        "title": "References",
+        "node_id": "0023",
+        "start_index": 10,
+        "end_index": 13,
+        "summary": "The text consists of academic references related to neural networks, machine translation, and natural language processing architectures."
+      },
+      {
+        "title": "Attention Visualizations",
+        "node_id": "0024",
+        "start_index": 13,
+        "end_index": 15,
+        "summary": "The text presents attention visualizations from encoder self-attention layers, demonstrating how different attention heads handle long-distance dependencies, anaphora resolution, and sentence structure tasks."
+      }
+    ]
+  }
+]
