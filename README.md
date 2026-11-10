@@ -9,7 +9,7 @@ Comparing two ways to do RAG (Retrieval-Augmented Generation) on the same docume
 
 - [x] Vectorless RAG with the PageIndex SDK, **cloud** mode
 - [x] Vectorless RAG with the PageIndex SDK, **local** mode
-- [ ] Vectorless RAG from scratch
+- [ ] Vectorless RAG from scratch [I WILL DO IT LATER]
 - [ ] VectorDB RAG
 - [ ] Comparison on the same questions (retrieval accuracy, answer quality, cost, speed)
 
