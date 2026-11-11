@@ -22,6 +22,8 @@ data/*.pdf
 
 # Generated indexes (rebuild them by running the notebook)
 results/pageindex_local/
+results/chroma_db/
+results/query_embeddings.json
 results/pageindex_store/
 .pageindex/
 

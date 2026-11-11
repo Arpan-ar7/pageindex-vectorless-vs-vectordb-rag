@@ -1,0 +1,31 @@
+system,id,question,gold,pages,hit,recall,precision,pages_read,chars_read,latency_s,llm_calls,score
+Vector RAG,q1,How does multi-head attention work?,"[4, 5]","[4, 5]",1,1.0,1.0,2,3742,7.1,1,4
+Agentic vector RAG,q1,How does multi-head attention work?,"[4, 5]","[4, 5]",1,1.0,1.0,2,7484,11.8,2,4
+PageIndex (local),q1,How does multi-head attention work?,"[4, 5]","[3, 4, 5]",1,1.0,0.6666666666666666,3,8119,9.5,2,5
+Vector RAG,q2,"What is the formula for scaled dot-product attention, and why are the dot products scaled?",[4],"[4, 5]",1,1.0,0.5,2,3840,6.5,1,3
+Agentic vector RAG,q2,"What is the formula for scaled dot-product attention, and why are the dot products scaled?",[4],"[4, 5]",1,1.0,0.5,2,7680,10.6,2,3
+PageIndex (local),q2,"What is the formula for scaled dot-product attention, and why are the dot products scaled?",[4],"[3, 4]",1,1.0,0.5,2,4825,8.8,2,5
+Vector RAG,q3,How are positional encodings computed?,[6],"[3, 5, 6]",1,1.0,0.3333333333333333,3,3681,6.0,1,5
+Agentic vector RAG,q3,How are positional encodings computed?,[6],"[3, 5, 6]",1,1.0,0.3333333333333333,3,7362,9.8,2,5
+PageIndex (local),q3,How are positional encodings computed?,[6],"[5, 6]",1,1.0,0.5,2,7215,8.4,2,5
+Vector RAG,q4,What optimizer and learning rate schedule were used for training?,[7],"[7, 8]",1,1.0,0.5,2,3460,5.2,1,5
+Agentic vector RAG,q4,What optimizer and learning rate schedule were used for training?,[7],"[7, 8]",1,1.0,0.5,2,6920,14.7,2,5
+PageIndex (local),q4,What optimizer and learning rate schedule were used for training?,[7],"[7, 8]",1,1.0,0.5,2,7034,6.0,2,5
+Vector RAG,q5,Which regularization techniques were used during training?,"[7, 8]","[7, 8, 12]",1,1.0,0.6666666666666666,3,3469,5.2,1,4
+Agentic vector RAG,q5,Which regularization techniques were used during training?,"[7, 8]","[7, 8, 12]",1,1.0,0.6666666666666666,3,6938,10.1,2,4
+PageIndex (local),q5,Which regularization techniques were used during training?,"[7, 8]","[7, 8]",1,1.0,1.0,2,7034,6.0,2,5
+Vector RAG,q6,What hardware was used to train the models and how long did training take?,[7],"[2, 7, 8]",1,1.0,0.3333333333333333,3,3769,5.0,1,5
+Agentic vector RAG,q6,What hardware was used to train the models and how long did training take?,[7],"[2, 7, 8]",1,1.0,0.3333333333333333,3,7538,10.4,2,5
+PageIndex (local),q6,What hardware was used to train the models and how long did training take?,[7],"[7, 8]",1,1.0,0.5,2,7034,5.7,2,4
+Vector RAG,q7,What BLEU scores did the big Transformer get on WMT 2014 English-German and English-French?,"[1, 8]","[1, 8]",1,1.0,1.0,2,3786,5.9,1,3
+Agentic vector RAG,q7,What BLEU scores did the big Transformer get on WMT 2014 English-German and English-French?,"[1, 8]","[1, 8]",1,1.0,1.0,2,7572,14.0,2,3
+PageIndex (local),q7,What BLEU scores did the big Transformer get on WMT 2014 English-German and English-French?,"[1, 8]","[7, 8]",1,0.5,0.5,2,7034,5.7,2,4
+Vector RAG,q8,How well does the Transformer do on English constituency parsing?,"[9, 10]","[1, 9, 10]",1,1.0,0.6666666666666666,3,4038,7.0,1,5
+Agentic vector RAG,q8,How well does the Transformer do on English constituency parsing?,"[9, 10]","[1, 9, 10]",1,1.0,0.6666666666666666,3,8076,13.1,2,4
+PageIndex (local),q8,How well does the Transformer do on English constituency parsing?,"[9, 10]","[9, 10]",1,1.0,1.0,2,6679,7.8,2,5
+Vector RAG,q9,How does changing the number of attention heads affect translation quality?,"[8, 9]","[5, 8, 9, 10]",1,1.0,0.5,4,3294,5.9,1,4
+Agentic vector RAG,q9,How does changing the number of attention heads affect translation quality?,"[8, 9]","[5, 8, 9, 10]",1,1.0,0.5,4,6588,11.5,2,4
+PageIndex (local),q9,How does changing the number of attention heads affect translation quality?,"[8, 9]","[8, 9]",1,1.0,1.0,2,6710,7.6,2,5
+Vector RAG,q10,Why use self-attention instead of recurrent or convolutional layers?,"[6, 7]","[2, 6, 7]",1,1.0,0.6666666666666666,3,3762,7.1,1,4
+Agentic vector RAG,q10,Why use self-attention instead of recurrent or convolutional layers?,"[6, 7]","[2, 6, 7]",1,1.0,0.6666666666666666,3,7524,11.4,2,4
+PageIndex (local),q10,Why use self-attention instead of recurrent or convolutional layers?,"[6, 7]","[6, 7]",1,1.0,1.0,2,25134,11.0,3,5
