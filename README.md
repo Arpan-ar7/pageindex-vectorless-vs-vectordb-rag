@@ -142,12 +142,4 @@ uv run vectorless-vs-vectordb-rag app                   # website at http://loca
 
 Or open the notebooks with the `.venv` kernel, in this order: `vectorless/pageindex.ipynb` → `vectordb/vectordb.ipynb` → `compare/compare.ipynb`.
 
-## Progress
 
-- [x] Vectorless RAG with the PageIndex SDK, **cloud** mode
-- [x] Vectorless RAG with the PageIndex SDK, **local** mode
-- [x] VectorDB RAG (Chroma + Nemotron embeddings + LangGraph + Claude)
-- [x] Comparison on the same questions (retrieval accuracy, answer quality, cost, speed)
-- [x] Python package, CLI and Streamlit website
-- [ ] Parent-page retrieval for vector RAG (search chunks, send whole pages)
-- [ ] Vectorless RAG from scratch [I WILL DO IT LATER]
