@@ -1,0 +1,4 @@
+system,hit_rate,recall,precision,pages_read,chars_read,latency_s,llm_calls,score
+Vector RAG,1.0,1.0,0.62,2.7,3684.1,6.09,1.0,4.2
+Agentic vector RAG,1.0,1.0,0.62,2.7,7368.2,11.74,2.0,4.1
+PageIndex (local),1.0,0.95,0.72,2.1,8681.8,7.65,2.1,4.8

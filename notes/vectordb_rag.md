@@ -17,13 +17,13 @@ PDF → pages → chunks → embed → Chroma DB          question → embed →
 | Step | Choice | Why |
 |---|---|---|
 | Read | `pypdf` 7, page by page | every chunk keeps its page number (citations + comparison with PageIndex) |
-| Chunk | 120 words, 30 overlap, per page | split on words so no word is cut; overlap keeps boundary sentences whole |
+| Chunk | `RecursiveCharacterTextSplitter`, 750 chars, 190 overlap, per page | cuts at paragraph / line breaks first, then words; overlap keeps boundary sentences whole (first version: 120-word windows, 30 overlap) |
 | Embed | `nvidia/nemotron-3.5-embed-1b:free` via OpenRouter | free, 2048 numbers per vector, 32k-token input, vectors come normalized |
 | Store | Chroma 1.5 `PersistentClient` → `results/chroma_db/` | on disk, stores text + `page` metadata, cosine distance |
 | Answer | Claude Sonnet via `claude-agent-sdk` | runs on the Claude subscription, no API key |
 | Orchestrate | LangGraph 1.2 | plain graph + agentic graph |
 
-Numbers: **71 chunks**, embedded in **one** API request (100 texts per batch).
+Numbers: **73 chunks**, embedded in **one** API request (100 texts per batch).
 
 ---
 

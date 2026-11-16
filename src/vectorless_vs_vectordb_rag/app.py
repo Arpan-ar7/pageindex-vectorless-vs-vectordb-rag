@@ -62,7 +62,7 @@ with st.sidebar:
         f"""
 - **Embeddings:** `{config.EMBED_MODEL}`
 - **Answers:** Claude `{config.CHAT_MODEL}` (subscription)
-- **Vector DB:** Chroma · {config.CHUNK_SIZE}-word chunks · top {config.TOP_K}
+- **Vector DB:** Chroma · {config.CHUNK_SIZE}-char chunks · top {config.TOP_K}
 - **Vectorless:** PageIndex local tree
 """
     )

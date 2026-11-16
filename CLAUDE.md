@@ -30,14 +30,14 @@ uv run jupyter nbconvert --to notebook --execute --inplace <notebook>   # run a 
 ## Setup facts
 - `.env` holds `OPENROUTER_API_KEY` (embeddings) and optionally `PAGEINDEX_API_KEY` (cloud mode; currently commented out by the user, so cloud is not used). Never print or commit keys.
 - **Claude answers run on the user's Claude subscription** via `claude-agent-sdk` (`llm.ask_claude`), not an API key. `config.py` removes `ANTHROPIC_API_KEY` from the environment so the subscription is used. PageIndex uses `claude-code/sonnet` the same way.
-- **OpenRouter free tier: 50 requests/day, embeddings included.** Batch embeddings (all 71 chunks fit in one request) and reuse cached query vectors (`results/query_embeddings.json`). Resets at 00:00 UTC.
+- **OpenRouter free tier: 50 requests/day, embeddings included.** Batch embeddings (all 73 chunks fit in one request) and reuse cached query vectors (`results/query_embeddings.json`). Resets at 00:00 UTC.
 
 ## Code map
 | File | Role |
 |---|---|
 | `config.py` | all paths, model names, chunk size, top-k |
 | `llm.py` | `ask_claude(prompt, system, schema)`: text or structured JSON |
-| `vectordb/ingest.py` | PDF → chunks (120 words, 30 overlap, per page) → embeddings → Chroma |
+| `vectordb/ingest.py` | PDF → chunks (`RecursiveCharacterTextSplitter`, 750 chars, 190 overlap, per page) → embeddings → Chroma; `build_index` embeds first, then recreates the collection |
 | `vectordb/rag.py` | `retrieve`, `generate`, `rag_graph()`, `agentic_graph()`, `run_vector`, `run_agentic` |
 | `vectorless/pageindex_rag.py` | `run_pageindex`: reads `.events` to record which pages were opened |
 | `compare/evaluate.py` | `QUESTIONS` (with gold pages), `SYSTEMS`, run → judge → tables → chart |

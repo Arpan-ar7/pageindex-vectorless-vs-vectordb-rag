@@ -35,8 +35,10 @@ CHAT_MODEL = "sonnet"                                  # answers: Claude Sonnet 
 
 # ---------- vector RAG settings ----------
 COLLECTION_NAME = "attention_paper"   # name of the Chroma collection (like a table name)
-CHUNK_SIZE = 120                      # words per chunk
-OVERLAP = 30                          # words shared by neighbouring chunks
+# Chunking uses LangChain's RecursiveCharacterTextSplitter, so sizes are in CHARACTERS.
+# 750 chars ~ the old 120-word chunks (they averaged ~708 chars), so only the splitting method changes.
+CHUNK_SIZE = 750                      # max characters per chunk
+OVERLAP = 190                         # characters shared by neighbouring chunks (~25%, same as before)
 TOP_K = 5                             # chunks retrieved per question
 MAX_RETRIES = 2                       # agentic RAG: how many times Claude may rewrite the search query
 

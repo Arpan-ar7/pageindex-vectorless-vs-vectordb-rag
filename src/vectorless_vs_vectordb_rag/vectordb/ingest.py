@@ -3,7 +3,7 @@ FILE:     vectordb/ingest.py
 PURPOSE:  Build the vector database (the INDEXING half of vector RAG). Run it once; the DB is
           saved on disk at results/chroma_db/ and reused by every question afterwards.
 
-          PDF -> pages -> chunks -> embeddings (Nemotron via OpenRouter) -> Chroma DB
+          PDF -> pages -> chunks (RecursiveCharacterTextSplitter) -> embeddings (Nemotron via OpenRouter) -> Chroma DB
 
 USED BY:  vectordb/rag.py (embed + get_collection), compare/evaluate.py (load_pages), the CLI `index`
 RUN:      uv run vectorless-vs-vectordb-rag index
@@ -16,6 +16,7 @@ from pathlib import Path
 import chromadb
 import numpy as np
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from openai import OpenAI
 from pypdf import PdfReader
 
@@ -30,12 +31,20 @@ def load_pages(pdf_path: Path = config.PDF_PATH) -> list[dict]:
 
 
 # ---------- step 2: cut pages into chunks ----------
-def chunk_text(text: str, size: int = config.CHUNK_SIZE, overlap: int = config.OVERLAP) -> list[str]:
-    """Overlapping windows of `size` words. Splitting on words never cuts a word in half."""
-    words = text.split()            # also cleans the messy line breaks and spaces from the PDF
-    step = size - overlap           # 120 - 30 = move forward 90 words each time
-    # max(..., 1) stops a tiny last chunk that only repeats the overlap, and keeps short pages
-    return [" ".join(words[s:s + size]) for s in range(0, max(len(words) - overlap, 1), step)]
+# RecursiveCharacterTextSplitter tries the most natural break first:
+# paragraphs ("\n\n") -> lines ("\n") -> words (" ") -> characters,
+# so chunks are less often cut in the middle of a sentence.
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=config.CHUNK_SIZE,       # max characters per chunk
+    chunk_overlap=config.OVERLAP,       # characters repeated at the start of the next chunk
+)
+
+
+def chunk_text(text: str) -> list[str]:
+    """Split one page into overlapping chunks at natural break points."""
+    # tidy each chunk: join the PDF's hard line breaks into normal spaces after splitting
+    # (we split first, so the splitter can still use the line breaks as cut points)
+    return [" ".join(c.split()) for c in splitter.split_text(text)]
 
 
 def build_chunks(pages: list[dict]) -> list[dict]:
@@ -88,12 +97,17 @@ def get_collection() -> chromadb.Collection:
 
 def build_index() -> int:
     """Run steps 1-4 and return how many chunks are in the DB.
-    Safe to re-run: upsert = insert or update, so chunks with the same id are replaced, not duplicated."""
+    Safe to re-run: the old collection is dropped first, so chunks left over from a
+    different chunking setting (e.g. an old "p3-c7" that no longer exists) cannot linger."""
     chunks = build_chunks(load_pages())
+    vectors = embed([c["text"] for c in chunks])         # embed FIRST: if the API fails, the old DB stays intact
+    db = chromadb.PersistentClient(path=config.CHROMA_PATH)
+    if config.COLLECTION_NAME in [c.name for c in db.list_collections()]:
+        db.delete_collection(config.COLLECTION_NAME)     # start from an empty collection
     collection = get_collection()
     collection.upsert(
         ids=[c["id"] for c in chunks],
-        embeddings=embed([c["text"] for c in chunks]),   # we pass our own vectors, so Chroma makes no extra API call
+        embeddings=vectors,                              # we pass our own vectors, so Chroma makes no extra API call
         documents=[c["text"] for c in chunks],           # the text, returned with search results
         metadatas=[{"page": c["page"]} for c in chunks], # the page number of each chunk
     )
